@@ -8,7 +8,7 @@ from app.prompts import SYSTEM_PROMPT
 load_dotenv()
 
 
-def generate_tests(source_code: str) -> dict:
+def generate_tests(source_code: str, previous_failure: str = None) -> dict:
     """Sends source code to Groq LLM API to generate pytest unit tests.
 
     Returns parsed JSON dictionary with keys: tests, reasoning, confidence, needs_retry.
@@ -19,11 +19,15 @@ def generate_tests(source_code: str) -> dict:
 
     client = Groq(api_key=api_key)
 
+    user_content = source_code
+    if previous_failure:
+        user_content += f"\n\nPrevious attempt failed with the following output: {previous_failure}. Analyze this failure and generate improved tests."
+
     try:
         response = client.chat.completions.create(
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": source_code},
+                {"role": "user", "content": user_content},
             ],
             model="llama-3.3-70b-versatile",
             response_format={"type": "json_object"},
