@@ -1,3 +1,4 @@
+import textwrap
 import os
 import subprocess
 import sys
@@ -23,7 +24,7 @@ def run_tests(source_code: str, test_code: str) -> dict:
             f.write(source_code)
 
         with open(test_solution_path, "w", encoding="utf-8") as f:
-            f.write(test_code)
+            f.write("from solution import *\n\n" + textwrap.dedent(test_code))
 
         try:
             result = subprocess.run(
