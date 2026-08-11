@@ -7,4 +7,8 @@ class GenerateTestsRequest(BaseModel):
 
 class GenerateTestsResponse(BaseModel):
     success: bool
-    message: str
+    iterations: int
+    tests: str
+    evaluation: str
+    history: list
+
