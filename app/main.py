@@ -1,9 +1,20 @@
+import os
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.agent import run_agent_loop
 from app.models import GenerateTestsRequest, GenerateTestsResponse
 
 app = FastAPI()
+
+if os.path.exists("static"):
+    app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+@app.get("/")
+def read_root():
+    return FileResponse("static/index.html")
 
 
 @app.get("/health")
@@ -26,4 +37,5 @@ def generate_tests_endpoint(request: GenerateTestsRequest):
         evaluation=last_eval_reason,
         history=history,
     )
+
 
