@@ -93,7 +93,8 @@ GROQ_API_KEY=gsk_your_groq_api_key_here
 ```bash
 uvicorn app.main:app --reload
 ```
-Interactive API docs available at: `http://127.0.0.1:8000/docs`
+Access the web UI at `http://127.0.0.1:8000/`. Interactive API docs are available at `http://127.0.0.1:8000/docs`.
+
 
 ### 5. Run the Automated Test Suite
 ```bash
